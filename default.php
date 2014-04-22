@@ -14,7 +14,7 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 $PluginInfo['VRadio'] = array(
    'Name'=>'VRadio',
    'Description' => "This plugin adds RadioTuna radio widget from radiotuna.com where you can add or change radio stations for the radio and edit it's colors to match your theme. ",
-   'Version' => '1.0',
+   'Version' => '1.1',
    'Author' => "VrijVlinder",
    'AuthorEmail' => 'contact@vrijvlinder.com',
    'AuthorUrl' => "http://www.vrijvlinder.com"
@@ -30,46 +30,31 @@ class VRadio_Plugin extends Gdn_Plugin {
   
 
 	
-   public function Setup() {
-		
+
+public function Base_Render_Before($Sender) {
+    $Controller = $Sender->ControllerName;
+  $ShowOnController = array(
+          'discussioncontroller',
+          'categoriescontroller',
+          'discussionscontroller',
+          'profilecontroller',
+          'activitycontroller'
+        );
+   if (!InArrayI($Controller, $ShowOnController)) return;
+
+ $Sender->AddCssFile('vradio.css', 'plugins/VRadio');
+$VRadioModule = new VRadioModule($Sender);
+      $Sender->AddModule($VRadioModule);
    }
 
-//comment out any function you do not want the radio to show in
-
-public function DiscussionsController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-}
-public function DiscussionController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-} 
-public function CategoriesController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-}
-public function CategoryController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-}
-public function ProfileController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-}
-public function ActivityController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-}             
-public function PluginController_Render_Before($Sender) {
-$Sender->AddJsFile('plugins/VRadio/js/vradio.js');
-}   
 
 
 
 
 
-
-
-
-
-
-
-
-
+   public function Setup() {
+    
+   }
 
 
      public function OnDisable() {
